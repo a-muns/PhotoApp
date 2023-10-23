@@ -25,7 +25,7 @@ def get_photos():
   for file_name in os.listdir(uploads):
     photo_id, extension = os.path.splitext(file_name)
     if (extension.lower() in {".jpeg", ".png", ".jpg", ".gif"}):
-      photos.append({"title":"Photo " + photo_id, "id": photo_id, "url":f"{host}/{photo_id}{extension}"})
+      photos.append({"title":"Photo " + photo_id, "id": photo_id, "url":f"{host}/photos/{photo_id}{extension}"})
   return jsonify(photos)
 
 @app.route("/photos", methods=["POST"])
