@@ -15,14 +15,22 @@ function App() {
 
   useEffect(() => {
     fetch("http://127.0.0.1:5000/photos")
-      .then(res => {
-        const result = res.json();
-        return result; // - uncomment and delete rest of this block to restore functionality
-        // const blob = new Blob([JSON.stringify(result, null, 2)], {type: "application/json"});
-        // return blob;
+      .then(response => {
+        const result = response.json();
+        return result;
+        // Create binary BytesIO() object out of file in app.py, then receive it with the below
+        // return response.blob().then((blob) => {
+        //   return {
+        //     blob: blob,
+        //     title: response.headers.get("title"),
+        //     id: response.headers.get("id")
+        //   }
+        // })
       })
       .then(data => {
+        console.log(data);
         setPhotos(data);
+        // 
       });
       console.log(photos);
   }, []);
