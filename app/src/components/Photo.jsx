@@ -14,8 +14,8 @@ function Photo({photo, onDelete, onEdit}) {
     
     return (
       <div className="photo">
-        <img src={photo.url} alt={photo.title} crossOrigin="anonymous"/>
-        {console.log("photo: " + photo.url)}
+        <img src={photo.img} alt={photo.title} crossOrigin="anonymous"/>
+        {console.log("photo: " + photo.img)}
         {editing ? (
           <div>
             <input

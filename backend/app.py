@@ -1,7 +1,8 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 from markupsafe import escape
-import uuid, os, array
+import uuid, os, array, io, base64
+from PIL import Image
 
 app = Flask(__name__)
 CORS(app)
@@ -12,10 +13,20 @@ host = "http://127.0.0.1:5000"
 
 os.makedirs(uploads, exist_ok = True)
 
+# Method to encode image from filepath to base64
+# (from https://www.reddit.com/r/flask/comments/8pj0bg/return_image_as_api_response/)
+def get_encoded_img(image_path):
+  img = Image.open(image_path, mode="r")
+  img_byte_arr = io.BytesIO()
+  photo_id, extension = os.path.splitext(image_path)
+  if (extension == ".png"):
+    img.save(img_byte_arr)
+  my_encoded_img = base64.encodebytes(img_byte_arr.getvalue()).decode("ascii")
+  return my_encoded_img
+
 @app.route("/")
 def greeting():
   return "Hello."
-
 
 # Fix route to see individual photos (/photos/<photo_id> GET?)
 @app.route("/photos", methods=["GET"])
@@ -25,7 +36,10 @@ def get_photos():
   for file_name in os.listdir(uploads):
     photo_id, extension = os.path.splitext(file_name)
     if (extension.lower() in {".jpeg", ".png", ".jpg", ".gif"}):
-      photos.append({"title":"Photo " + photo_id, "id": photo_id, "url":f"{host}/photos/{photo_id}{extension}"})
+      photo_url = str(photo_id + extension)
+      img = get_encoded_img(uploads + "/" + photo_url)
+      photos.append({"title":"Photo " + photo_id, "id": photo_id, "image": img})
+      print(img)
   return jsonify(photos)
 
 @app.route("/photos", methods=["POST"])
