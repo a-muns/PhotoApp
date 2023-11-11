@@ -16,9 +16,16 @@ os.makedirs(uploads, exist_ok = True)
 # Method to encode image from filepath to base64
 # (from https://www.reddit.com/r/flask/comments/8pj0bg/return_image_as_api_response/)
 def get_encoded_img(image_path):
+  assert (isinstance(image_path, str), f"Not right {image_path}")
   img = Image.open(image_path, mode="r")
   img_byte_arr = io.BytesIO()
   photo_id, extension = os.path.splitext(image_path)
+  if (extension == ".gif"):
+    img.save(img_byte_arr, format="GIF")
+  if (extension == ".jpeg"):
+    img.save(img_byte_arr, format="JPEG")
+  if (extension == ".png"):
+    img.save(img_byte_arr, format="PNG")
   if (extension == ".png"):
     img.save(img_byte_arr)
   my_encoded_img = base64.encodebytes(img_byte_arr.getvalue()).decode("ascii")

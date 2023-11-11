@@ -1,0 +1,27 @@
+FrontEnd
+Form
+- input for file
+- upload button
+Gallery
+- grid image display
+- responsive design
+- thumbnail and title
+- click-to-view fullsize
+
+Editing
+- Button next to each photo "Edit"
+- shows current title, editable
+Update on click of "Save" button
+
+Upload photo in gallery
+
+Backend
+GET /photos
+- JSON array of uploaded photos with titles & file URLs
+POST /photos accepts file upload; optional title; stores on server
+- returns created photo's metadata as JSON
+PUT /photos/<photo_id>
+- accepts JSON to update title with specified photo_id
+-returns photo's metadata as JSON
+DELETE /photos/<photo_id>
+- deletes photo with specified photo_id
