@@ -12,10 +12,15 @@ function Photo({photo, onDelete, onEdit}) {
       setEditing(false);
     }
     
+    // Decode base64 image
+    var decodedImg = atob(photo.image);
+    var photoImg = new Image();
+    photoImg.src = "data:image/jpg;base64," + decodedImg;
+
     return (
       <div className="photo">
-        <img src={photo.img} alt={photo.title} crossOrigin="anonymous"/>
-        {console.log("photo: " + photo.img)}
+        <img ng-src={photoImg.src} alt={photo.title} crossOrigin="anonymous"/>
+        {console.log("photo: " + photoImg.src)}
         {editing ? (
           <div>
             <input
